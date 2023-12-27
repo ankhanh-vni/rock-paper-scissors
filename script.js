@@ -1,14 +1,14 @@
-playerScore = 0;
-computerScore = 0;
-PLAYER_WIN_MESSAGE = "Player wins the round";
-COMPUTER_WIN_MESSAGE = "Computer wins the round";
-DRAW_MESSAGE = "It's a draw"
-CHOICES = {
+let playerScore = 0;
+let computerScore = 0;
+const PLAYER_WIN_MESSAGE = "Player wins the round";
+const COMPUTER_WIN_MESSAGE = "Computer wins the round";
+const DRAW_MESSAGE = "It's a draw"
+const CHOICES = {
     0: "rock",
     1: "scissors",
     2: "paper"
 }
-WIN_THRESHOLD = 2;
+const WIN_THRESHOLD = 2;
 
 function getPlayerChoice() {
   while (true) {
@@ -31,8 +31,8 @@ function logChoice(playerChoice, computerChoice) {
 	console.log(`Computer chooses ${CHOICES[computerChoice]}`);
 }
 
-function getScoreMessage(playerScore, computerScore) {
-  return `Scores: Player: ${playerScore} - Computer: ${computerScore}`;
+function logScoreMessage(playerScore, computerScore) {
+  console.log(`Scores: Player: ${playerScore} - Computer: ${computerScore}`);
 }
 
 
@@ -45,7 +45,6 @@ function updateScore(playerChoice, computerChoice) {
     case 2:
         playerScore++;
         console.log(PLAYER_WIN_MESSAGE);
-        console.log(getScoreMessage(playerScore, computerScore));
         break;
     case 0:
     	console.log(DRAW_MESSAGE);
@@ -53,9 +52,9 @@ function updateScore(playerChoice, computerChoice) {
     default:
     	computerScore++;
         console.log(COMPUTER_WIN_MESSAGE);
-        console.log(getScoreMessage(playerScore,computerScore));
     	break;
   }
+  logScoreMessage(playerScore, computerScore);
 }
 
 function turn() {
