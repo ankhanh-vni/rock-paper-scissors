@@ -12,25 +12,31 @@ const CHOICES = {
 };
 const WIN_THRESHOLD = 2;
 
-function getPlayerChoice() {
-  while (true) {
-    const input = prompt("What is your choice?\n0 for rock\n1 for scissors\n2 for paper") ?? "";
-    if (input.trim() === "") {
-      console.log("No input detected. Choose again");
-      continue;
-    }
-    const playerChoice = Number(input);
-    if (playerChoice === 0 || playerChoice === 1 || playerChoice === 2) {
-      return playerChoice;
-    }
-    console.log("Invalid choice. Choose 0, 1, or 2");
-  }
-}
+document.querySelector(".rock").addEventListener("click", () => turn(0));
+document.querySelector(".scissors").addEventListener("click", () => turn(1));
+document.querySelector(".paper").addEventListener("click", () => turn(2));
 
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+// function getPlayerChoice() {
+//   while (true) {
+//     const input = prompt("What is your choice?\n0 for rock\n1 for scissors\n2 for paper") ?? "";
+//     if (input.trim() === "") {
+//       console.log("No input detected. Choose again");
+//       continue;
+//     }
+//     const playerChoice = Number(input);
+//     if (playerChoice === 0 || playerChoice === 1 || playerChoice === 2) {
+//       return playerChoice;
+//     }
+//     console.log("Invalid choice. Choose 0, 1, or 2");
+//   }
+// }
+function getComputerChoice() {
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+    }
+  return getRandomIntInclusive(0, 2);
 }
 
 function logChoice(playerChoice, computerChoice) {
@@ -59,32 +65,31 @@ function updateScore(playerChoice, computerChoice) {
       console.log(COMPUTER_WIN_MESSAGE);
       break;
   }
-  logScoreMessage(scores.player,scores.computer);
 }
 
-function turn() {
-  const playerChoice = getPlayerChoice();
-  const computerChoice = getRandomIntInclusive(0, 2);
+function checkGameOver() {
+    for (let key in scores) {
+      if (scores[key] === WIN_THRESHOLD) {
+        const name = key[0].toUpperCase() + key.slice(1);
+        console.log(`${name} wins the game!`);
+        console.log("Let's play again");
+        console.log("=====================================")
+        console.log("New game started")
+        scores.player = 0;
+        scores.computer = 0;
+        logScoreMessage(scores.player, scores.computer);
+        return;
+
+      }
+    }
+    console.log("Let's continue");
+}
+
+function turn(choice) {
+  const playerChoice = choice;
+  const computerChoice = getComputerChoice();
   logChoice(playerChoice, computerChoice);
   updateScore(playerChoice, computerChoice);
-  for (let key in scores) {
-    if (scores[key] === WIN_THRESHOLD) {
-      const name = key[0].toUpperCase() + key.slice(1);
-      console.log(`${name} wins the game!`);
-      return true;
-    }
-  }
-  console.log("Let's continue");
-  return false;
+  logScoreMessage(scores.player, scores.computer);
+  checkGameOver();
 }
-
-// Update header text
-function game() {
-  while (true) {
-    if (turn()) {
-      break;
-    }
-  }
-}  
-
-game();
