@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="styles.css">
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <button class="rock">✊</button>
-    <button class="paper">✋</button>
-    <button class="scissors">✌</button>
+    <div class="header">Rock Paper Scissors</div>
+    <main>
+        <div class="score-board">
+            <div class="human-score-container">
+                <div class="human-score-label">Human</div>
+                <div class="human-score">0</div>
+            </div>
+            <div class="computer-score-container">
+                <div class="computer-score-label">Computer</div>
+                <div class="computer-score">0</div>
+            </div>
+        </div>
+        <div class="log-choice-message"></div>
+        <div class="choice">
+            <button class="rock">✊</button>
+            <button class="paper">✋</button>
+            <button class="scissors">✌</button>
+        </div>
+        <div class="result"></div>
+
+    </main>
     <script src="script.js" defer></script>
 </body>
 </html>

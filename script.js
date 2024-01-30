@@ -6,15 +6,11 @@ const PLAYER_WIN_MESSAGE = "Player wins the round";
 const COMPUTER_WIN_MESSAGE = "Computer wins the round";
 const DRAW_MESSAGE = "It's a draw";
 const CHOICES = {
-  0: "rock",
-  1: "scissors",
-  2: "paper",
+  0: "✊",
+  1: "✌️",
+  2: "🖐️",
 };
-const WIN_THRESHOLD = 2;
-
-document.querySelector(".rock").addEventListener("click", () => turn(0));
-document.querySelector(".scissors").addEventListener("click", () => turn(1));
-document.querySelector(".paper").addEventListener("click", () => turn(2));
+const WIN_THRESHOLD = 5;
 
 // function getPlayerChoice() {
 //   while (true) {
@@ -40,17 +36,17 @@ function getComputerChoice() {
 }
 
 function logChoice(playerChoice, computerChoice) {
-  console.log(`Player chooses ${CHOICES[playerChoice]}`);
-  console.log(`Computer chooses ${CHOICES[computerChoice]}`);
+  document.querySelector(".log-choice-message").textContent = `Player chooses ${CHOICES[playerChoice]} and computer chooses ${CHOICES[computerChoice]}`;
 }
 
 function logScoreMessage(playerScore, computerScore) {
-  console.log(`Scores: Player: ${playerScore} - Computer: ${computerScore}`);
+  document.querySelector(".human-score").textContent = playerScore;
+  document.querySelector(".computer-score").textContent = computerScore;
 }
 
 function updateScore(playerChoice, computerChoice) {
   const difference = playerChoice - computerChoice;
-  // Follow the rule of rock > scissors > paper > rock. A difference of -1 means player chooses the preceeding choice of computer's choice. A differene of 2 is a wrap around from paper to rock.
+  // Follow the rule of rock > scissors > paper > rock. A difference of -1 means player chooses the preceding choice of computer's choice. A difference of 2 is a wrap around from paper to rock.
   switch (difference) {
     case -1:
     case 2:
@@ -71,15 +67,16 @@ function checkGameOver() {
     for (let key in scores) {
       if (scores[key] === WIN_THRESHOLD) {
         const name = key[0].toUpperCase() + key.slice(1);
-        console.log(`${name} wins the game!`);
-        console.log("Let's play again");
-        console.log("=====================================")
-        console.log("New game started")
-        scores.player = 0;
-        scores.computer = 0;
+        document.querySelector(".result").textContent = `${name} wins the game!`;
         logScoreMessage(scores.player, scores.computer);
-        return;
 
+        let choices = Array.from(document.querySelector(".choice").children);
+        choices.forEach((child) => {
+          child.disabled = true;
+        });
+
+        displayResetButton();
+        return;
       }
     }
     console.log("Let's continue");
@@ -93,3 +90,27 @@ function turn(choice) {
   logScoreMessage(scores.player, scores.computer);
   checkGameOver();
 }
+
+function displayResetButton() {
+  let playAgainButton = document.createElement("button");
+  playAgainButton.textContent = "Play again";
+  playAgainButton.classList.add("play-again"); // Add the class "play-again-button"
+  playAgainButton.addEventListener("click", () => {
+    scores.player = 0;
+    scores.computer = 0;
+    logScoreMessage(scores.player, scores.computer);
+    document.querySelector(".result").textContent = "";
+    document.querySelector(".log-choice-message").textContent = "";
+    playAgainButton.remove();
+    let choices = Array.from(document.querySelector(".choice").children);
+    choices.forEach((child) => {
+      child.disabled = false;
+    });
+  })
+  document.querySelector("main").appendChild(playAgainButton);
+}
+
+document.querySelector(".rock").addEventListener("click", () => turn(0));
+document.querySelector(".scissors").addEventListener("click", () => turn(1));
+document.querySelector(".paper").addEventListener("click", () => turn(2));
+
