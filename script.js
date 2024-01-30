@@ -67,7 +67,7 @@ function checkGameOver() {
     for (let key in scores) {
       if (scores[key] === WIN_THRESHOLD) {
         const name = key[0].toUpperCase() + key.slice(1);
-        document.querySelector(".result").textContent = `${name} wins the game!`;
+        document.querySelector(".result").textContent = `${name} wins the game! 🥳🎉`;
         logScoreMessage(scores.player, scores.computer);
 
         let choices = Array.from(document.querySelector(".choice").children);
